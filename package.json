@@ -1,0 +1,40 @@
+{
+  "name": "nodejs-es6-babel-eslint",
+  "version": "1.0.0",
+  "description": "A node.js application boilerplate writing in ES6, Babel and ESLint",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist/ && babel src/ -d dist/",
+    "start": "npm run build && node dist/index.js",
+    "lint": "./node_modules/.bin/eslint src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ledinhphuong/nodejs-es6-babel-eslint.git"
+  },
+  "keywords": [
+    "nodejs",
+    "es6",
+    "babel",
+    "eslint",
+    "boilerplate"
+  ],
+  "author": "Phuong Le",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ledinhphuong/nodejs-es6-babel-eslint/issues"
+  },
+  "homepage": "https://github.com/ledinhphuong/nodejs-es6-babel-eslint#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.6",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.3.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1"
+  }
+}
