@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-es6-babel-eslint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ledinhphuong/nodejs-es6-babel-eslint.git"
+  },
+  "keywords": [
+    "nodejs",
+    "es6",
+    "babel",
+    "eslint",
+    "boilerplate"
+  ],
+  "author": "Phuong Le",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ledinhphuong/nodejs-es6-babel-eslint/issues"
+  },
+  "homepage": "https://github.com/ledinhphuong/nodejs-es6-babel-eslint#readme"
+}
