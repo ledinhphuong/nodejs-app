@@ -1,0 +1,51 @@
+parser: babel-eslint
+plugins:
+  - babel
+  - import
+env:
+  browser: true
+  node: true
+rules:
+  eqeqeq: ["error", "always"]
+  no-var: "error"
+  no-alert: "error"
+  no-debugger: "error"
+  no-useless-escape: "error"
+  semi: ["error", "never"]
+  space-before-function-paren: [2, {"anonymous": "always", "named": "never"}]
+  yoda: "error"
+  arrow-parens: [0, "always"]
+  arrow-spacing: 2
+  brace-style: [2, "stroustrup"]
+  padded-blocks: 0
+  newline-after-var: 0
+  spaced-comment: 0
+  max-len: [2, 100, 4, {"ignoreUrls": true}]
+  array-bracket-spacing: [2, "never"]
+  computed-property-spacing: [2, "never"]
+  no-trailing-spaces: [2, {"skipBlankLines": true}]
+  object-shorthand: 2
+  no-await-in-loop: 1
+  no-multi-spaces: "error"
+  space-in-parens: "error"
+  indent: ["error", 2]
+
+  # Disables generator-star-spacing check since there's an issue with babel
+  # Refs: https://github.com/babel/babel-eslint/issues/316
+  generator-star-spacing: 0
+
+  # Babel
+  babel/new-cap: 2
+  babel/object-curly-spacing: [2, "never"]
+
+  # Import
+  import/no-unresolved: [2, {commonjs: true, amd: true, ignore: ['electron', 'remote', 'shell', 'web-frame']}]
+  import/named: 0
+  import/namespace: 0
+  import/default: 0
+  import/export: 2
+  import/no-named-as-default: 0
+  import/no-commonjs: 0
+  import/no-amd: 2
+  import/imports-first: 2
+  import/no-duplicates: 2
