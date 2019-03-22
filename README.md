@@ -1,9 +1,15 @@
-### A Node.JS application boilerplate writing in ES6, Babel and ESLint
+# A Node.JS application boilerplate writing in ES6, Babel and ESLint
+
+### Requirements
+```bash
+node v6.10.0
+npm v3.10.10
+```
 
 #### Commands
-```
+```bash
 npm install
-npm run build
 npm start
 npm run lint
+npm run build
 ```

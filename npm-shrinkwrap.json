@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "@babel/polyfill": {
+      "version": "7.4.0",
+      "from": "@babel/polyfill@>=7.4.0 <8.0.0",
+      "resolved": "https://registry.npmjs.org/@babel/polyfill/-/polyfill-7.4.0.tgz"
+    },
+    "bluebird": {
+      "version": "3.5.3",
+      "from": "bluebird@>=3.5.1 <4.0.0",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.5.3.tgz"
+    },
+    "core-js": {
+      "version": "2.6.5",
+      "from": "core-js@>=2.6.5 <3.0.0",
+      "resolved": "https://registry.npmjs.org/core-js/-/core-js-2.6.5.tgz"
+    },
+    "regenerator-runtime": {
+      "version": "0.13.2",
+      "from": "regenerator-runtime@>=0.13.2 <0.14.0",
+      "resolved": "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.2.tgz"
+    }
+  }
+}

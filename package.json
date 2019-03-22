@@ -1,13 +1,12 @@
 {
-  "name": "nodejs-es6-babel-eslint",
+  "name": "nodejs-app",
   "version": "1.0.0",
   "description": "A node.js application boilerplate writing in ES6, Babel and ESLint",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist/ && babel src/ -d dist/",
-    "start": "npm run build && node dist/index.js",
-    "lint": "./node_modules/.bin/eslint src/"
+    "start": "npm run build && node build/index.js",
+    "lint": "eslint src",
+    "build": "rm -rf build && babel src -d build"
   },
   "repository": {
     "type": "git",
@@ -27,14 +26,20 @@
   },
   "homepage": "https://github.com/ledinhphuong/nodejs-es6-babel-eslint#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
     "babel-eslint": "^8.2.6",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^5.3.0",
+    "eslint-config-standard": "^12.0.0",
     "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-import": "^2.13.0"
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.0",
     "bluebird": "^3.5.1"
   }
 }
