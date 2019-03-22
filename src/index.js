@@ -1,5 +1,13 @@
-async function print() {
-  console.log('Hello world')
+import '@babel/polyfill'
+
+async function main() {
+  await _main()
+
+  console.log('main: Hello world')
 }
 
-print()
+async function _main() {
+  console.log('_main: asyn-await')
+}
+
+main()
