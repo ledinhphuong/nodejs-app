@@ -4,9 +4,10 @@
   "description": "A node.js application boilerplate writing in ES6, Babel and ESLint",
   "main": "build/index.js",
   "scripts": {
-    "start": "npm run build && node build/index.js",
+    "start": "nodemon src/index.js --exec babel-node",
     "lint": "eslint src",
-    "build": "rm -rf build && babel src -d build"
+    "build": "rm -rf build && babel src -d build",
+    "start-product": "nodemon build/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
+    "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
     "babel-eslint": "^8.2.6",
     "eslint": "^5.3.0",
@@ -36,7 +38,8 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "nodemon": "^1.18.10"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
