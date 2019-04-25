@@ -7,7 +7,8 @@
     "start": "nodemon src/index.js --exec babel-node",
     "lint": "eslint src",
     "build": "rm -rf build && babel src -d build",
-    "serve": "nodemon build/index.js"
+    "serve": "nodemon build/index.js",
+    "api": "babel-node ./src/api.js"
   },
   "repository": {
     "type": "git",
@@ -32,9 +33,10 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
     "babel-eslint": "^8.2.6",
+    "bluebird": "^3.5.4",
     "eslint": "^5.3.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
@@ -43,6 +45,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
-    "bluebird": "^3.5.1"
+    "request": "^2.88.0"
   }
 }

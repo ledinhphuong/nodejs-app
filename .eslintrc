@@ -32,7 +32,6 @@ rules:
 
   # Babel
   babel/new-cap: 2
-  babel/object-curly-spacing: [2, "never"]
 
   # Import
   import/no-unresolved: [2, {commonjs: true, amd: true}]
