@@ -8,7 +8,8 @@
     "lint": "eslint src",
     "build": "rm -rf build && babel src -d build",
     "serve": "nodemon build/index.js",
-    "api": "babel-node ./src/api.js"
+    "api": "babel-node ./src/api.js",
+    "download-apk": "babel-node ./src/download-apk.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,8 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
+    "gpapi": "^4.5.0",
+    "http-status-codes": "^1.3.2",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
