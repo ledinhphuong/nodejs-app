@@ -43,52 +43,44 @@ async function installApp(appWillBeInstall) {
     console.log('> ' + meth.magenta, path, (data || '').grey)
   })
 
-  try {
-    console.log(`Using capabilities: ${JSON.stringify(caps)}`)
-    await driver.init(caps)
-  }
-  catch (e) {
-    console.error(e)
-    assert(false, 'The environment you requested was unavailable.')
-  }
+  console.log(`Using capabilities: ${JSON.stringify(caps)}`)
+  await driver.init(caps)
 
-  await driver.setImplicitWaitTimeout(8 * 60 * 1000)
+  const timeout = 1 * 60 * 1000
+  await driver.setImplicitWaitTimeout(timeout)
+  await driver.setAsyncScriptTimeout(timeout)
+  await driver.setPageLoadTimeout(timeout)
+
+  // Sometimes, AppStore app asks to Allow notification
+  await _closeAlert(driver, { action: 'accept', buttonLabel: 'Allow' })
 
   // https://github.com/facebook/WebDriverAgent/wiki/How-To-Achieve-The-Best-Lookup-Performance
   await driver
-    // 1. Click on Search tab
-    // .elementByAccessibilityId('Search').click()
-    // iOS 13.2
+    // Click on Search tab
     .waitForElementByIosClassChain('**/XCUIElementTypeTabBar[`visible == 1`]/XCUIElementTypeButton[`name BEGINSWITH[c] "search" AND visible == 1`]').click()
-
-    // 2. Click on Search textfield and Enter app name (want to install)
-    // .elementByAccessibilityId('App Store').clear().sendKeys('youtube')
-    // iOS 12.4
-    // .waitForElementByXPath('//XCUIElementTypeSearchField[@name="App Store" and @label="App Store" and @visible="true"]').clear().sendKeys(appWillBeInstall)
-    // iOS 13.2
+    // Click on Search textfield and Enter app name (want to install)
     .waitForElementByIosClassChain('**/XCUIElementTypeSearchField').click().sendKeys(appWillBeInstall)
-
-    // 3. Click Search button on keyboard
-    // .elementByName('Search').click()
-    // iOS 12.4
-    // .waitForElementByXPath('//XCUIElementTypeButton[@name="Search" and @label="Search" and @visible="true"]').click()
-    // iOS 13.2
+    // Click Search button on keyboard
     .waitForElementByIosClassChain('**/XCUIElementTypeButton[`name BEGINSWITH[c] "search" AND visible == 1`]').click()
 
-    // 4. Click Install button
-    // .waitForElementByXPath(`//XCUIElementTypeCell[contains(label,"${appWillInstall}")]`).click()
-    // .waitForElementsByIosPredicateString(`type == "XCUIElementTypeCell" AND label BEGINSWITH[c] "${appWillBeInstall}"`)
-    //   .first().click()
-    // .sleep(10000)
-    .waitForElementByIosClassChain(`**/XCUIElementTypeCell[\`label BEGINSWITH[c] "${appWillBeInstall}"\`][-1]/XCUIElementTypeButton[\`name IN {"re-download", "redownload", "get"}\`]`).click()
-    // 4.1. Click on Install button to confirm
-    // .waitForElementByIosClassChain(`**/XCUIElementTypeButton[\`name == "install"\`]`).click()
+  // Click install button
+  await _clickInstallButton(driver, appWillBeInstall)
 
-    // 5. Click Open button
-    // .waitForElementByXPath('//XCUIElementTypeButton[@label="open" and @visible="true"]').click()
-    .waitForElementByIosClassChain(`**/XCUIElementTypeCell[\`label BEGINSWITH[c] "${appWillBeInstall}"\`][-1]/XCUIElementTypeButton[\`label BEGINSWITH[c] "oPen"\`]`).click()
+  // Click Open button
+  await _clickOpenButton(driver, appWillBeInstall)
+
+  await driver
+    // Get bundleId
+    .sleep(2000) // wait a little bit for the screen is quiet
+    .execute('mobile:activeAppInfo')
+    // .execute('mobile:launchApp', { bundleId: 'com.facebook.Facebook' })
+    // .execute('mobile:siriCommand', { text: 'where am i?' })
+
+  await driver
+    .sleep(10000)
     .quit()
 
+  // We can get budleId if the running script + hosting devices are in the same mac
   const bundleId = await getBundleId(appWillBeInstall)
   console.log(`Finshed to install: ${bundleId}`)
 }
@@ -124,6 +116,63 @@ async function getBundleId(appName) {
 
   const foundAppInfo = foundAppInfos[0]
   return foundAppInfo[0]
+}
+
+async function _closeAlert(driver, alertOptions, retryTimes = 3) {
+  const finalOpts = { ...alertOptions, action: 'accept', buttonLabel: 'Allow' }
+
+  let i = 0
+  while (i < retryTimes) {
+    try {
+      await driver.execute('mobile: alert', finalOpts)
+      return true
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+    i++
+  }
+
+  return false
+}
+
+async function _clickInstallButton(driver, appWillBeInstall, retryTimes = 5) {
+  let i = 0
+  while (i < retryTimes) {
+    try {
+      await driver.waitForElementByIosClassChain(
+        `**/XCUIElementTypeCell[\`label BEGINSWITH[c] "${appWillBeInstall}"\`][-1]/XCUIElementTypeButton[\`name BEGINSWITH[c] "re-download" OR name BEGINSWITH[c] "redownload" OR name BEGINSWITH[c] "get"\`]`).click()
+      return true
+    }
+    catch (err) {
+      console.log(err)
+      await _closeAlert(driver, { action: 'accept', buttonLabel: 'Install' })
+    }
+
+    i++
+  }
+
+  return false
+}
+
+async function _clickOpenButton(driver, appWillBeInstall, retryTimes = 20) {
+  let i = 0
+  while (i < retryTimes) {
+    try {
+      await driver.waitForElementByIosClassChain(
+        `**/XCUIElementTypeCell[\`label BEGINSWITH[c] "${appWillBeInstall}"\`][-1]/XCUIElementTypeButton[\`label BEGINSWITH[c] "oPen"\`]`).click()
+      return true
+    }
+    catch (err) {
+      console.log(err)
+      await _closeAlert(driver, { action: 'accept', buttonLabel: 'Install' }, retryTimes = 1)
+    }
+
+    i++
+  }
+
+  return false
 }
 
 installApp(process.env.APP || 'Slack').then(

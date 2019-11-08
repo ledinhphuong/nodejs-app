@@ -21,7 +21,7 @@ rules:
   padded-blocks: 0
   newline-after-var: 0
   spaced-comment: 0
-  max-len: [2, 200, 4, {"ignoreUrls": true}]
+  max-len: [2, 300, 4, {"ignoreUrls": true}]
   array-bracket-spacing: [2, "never"]
   computed-property-spacing: [2, "never"]
   no-trailing-spaces: [2, {"skipBlankLines": true}]
