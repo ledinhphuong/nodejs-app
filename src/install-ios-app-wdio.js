@@ -1,3 +1,4 @@
+import BPromise from 'bluebird'
 import '@babel/polyfill'
 import { remote } from 'webdriverio'
 
@@ -33,19 +34,22 @@ async function installApp(appWillBeInstall) {
 
   console.log(`Running automation with options: ${JSON.stringify(options)}`)
   const driver = await remote(options)
+  console.log(JSON.stringify(driver))
 
   const timeouts = 1 * 60 * 1000
   await driver.setTimeout({ timeouts, pageLoad: timeouts, script: timeouts, implicit: timeouts })
 
   // Sometimes, AppStore app asks to Allow notification
-  await _closeAlert(driver, 'Allow')
+  // await _closeAlert(driver, 'Allow')
 
   // https://github.com/facebook/WebDriverAgent/wiki/How-To-Achieve-The-Best-Lookup-Performance
   const searchTab = await driver.$('-ios class chain:**/XCUIElementTypeTabBar[`visible == 1`]/XCUIElementTypeButton[`name BEGINSWITH[c] "search" AND visible == 1`]')
   searchTab && await searchTab.click()
 
+  await driver.getPageSource()
   const searchTextField = await driver.$('-ios class chain:**/XCUIElementTypeSearchField')
   searchTextField && await searchTextField.setValue(appWillBeInstall)
+  await driver.getPageSource()
 
   const searchKeyboard = await driver.$('-ios class chain:**/XCUIElementTypeButton[`name BEGINSWITH[c] "search" AND visible == 1`]')
   searchKeyboard && await searchKeyboard.click()
@@ -85,8 +89,8 @@ async function _closeAlert(driver, buttonLabel, retryTimes = 1) {
 async function _clickInstallButton(driver, appWillBeInstall, retryTimes = 5) {
   let i = 0
   while (i < retryTimes) {
-    const installButton = await driver.$(
-      `-ios class chain:**/XCUIElementTypeCell[\`label BEGINSWITH[c] "${appWillBeInstall}"\`][-1]/XCUIElementTypeButton[\`name BEGINSWITH[c] "re-download" OR name BEGINSWITH[c] "redownload" OR name BEGINSWITH[c] "get"\`]`)
+    const installButton = await driver
+      .$(`-ios class chain:**/XCUIElementTypeCell[\`label BEGINSWITH[c] "${appWillBeInstall}"\`][-1]/XCUIElementTypeButton[\`name BEGINSWITH[c] "re-download" OR name BEGINSWITH[c] "redownload" OR name BEGINSWITH[c] "get"\`]`)
 
     if (installButton) {
       installButton && await installButton.click()
@@ -97,6 +101,16 @@ async function _clickInstallButton(driver, appWillBeInstall, retryTimes = 5) {
   }
 
   return false
+}
+
+async function _enterPasswordToConfirmInstallation(driver) {
+  const passwordTextfield = await driver.$(
+    `-ios class chain:**/XCUIElementTypeSecureTextField[\`visible == 1\`]`)
+  await passwordTextfield.setValue('phuongle@2019')
+
+  const signInButton = await driver.$(
+    `-ios class chain:**/XCUIElementTypeButton[\`name BEGINSWITH[c] "Sign In" AND visible == 1\`]`)
+  await signInButton.click()
 }
 
 async function _clickOpenButton(driver, appWillBeInstall, retryTimes = 20) {
@@ -116,14 +130,59 @@ async function _clickOpenButton(driver, appWillBeInstall, retryTimes = 20) {
       console.log(err)
     }
 
-    _closeAlert(driver, 'install')
+    await _closeAlert(driver, 'install')
+    await _enterPasswordToConfirmInstallation(driver)
     i++
   }
 
   return false
 }
 
-installApp(process.env.APP || 'Slack').then(
+async function testUICatalog() {
+  const server = process.env.SERVER === 'local' ? APPIUM : KOBITON
+
+  const options = {
+    logLevel: 'debug',
+    capabilities: {
+      platformName: 'iOS',
+      deviceName: process.env.NAME || 'iPhone 5s*',
+      udid: process.env.UDID || '471e46fb5d4dc6bcf0a55924a421a9548957ce05',
+      bundleId: 'com.example.apple-samplecode.UIKitCatalog',
+      captureScreenshots: false,
+      newCommandTimeout: 300000
+    },
+    ...server
+  }
+
+  console.log(`Running automation with options: ${JSON.stringify(options)}`)
+  const driver = await remote(options)
+  console.log(JSON.stringify(driver))
+
+  const timeouts = 1 * 60 * 1000
+  await driver.setTimeout({ timeouts, pageLoad: timeouts, script: timeouts, implicit: timeouts })
+
+  // https://github.com/facebook/WebDriverAgent/wiki/How-To-Achieve-The-Best-Lookup-Performance
+  const size = await driver.getWindowSize()
+  console.log(JSON.stringify(size))
+
+  await driver.getPageSource()
+
+  await BPromise.delay(10000)
+  const searchTab = await driver.$('-ios class chain:**/XCUIElementTypeButton[`visible == 1`][-1]')
+  searchTab && await searchTab.click()
+
+  await BPromise.delay(5000)
+
+  driver && await driver.deleteSession()
+}
+
+// installApp(process.env.APP || 'Slack').then(
+//   () => {
+//     console.log('Done.')
+//   }
+// )
+
+testUICatalog().then(
   () => {
     console.log('Done.')
   }
