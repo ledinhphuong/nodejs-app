@@ -2,7 +2,6 @@ import '@babel/polyfill'
 import 'colors'
 import BPromise from 'bluebird'
 import wd from 'wd'
-import { assert } from 'chai'
 
 const execAsync = BPromise.promisify(require('child_process').exec, { multiArgs: true })
 

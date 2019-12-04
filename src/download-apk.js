@@ -5,8 +5,8 @@ import fs from 'fs'
 import gpapi from 'gpapi'
 import HttpStatusCodes from 'http-status-codes'
 
-const requestAsync = BPromise.promisify(request, {multiArgs: true})
-const execAsync = BPromise.promisify(childProcess.exec, {multiArgs: true})
+const requestAsync = BPromise.promisify(request, { multiArgs: true })
+const execAsync = BPromise.promisify(childProcess.exec, { multiArgs: true })
 const VERSION_REXEG = /versionCode=(\d+)[\s\S]+?versionName=([\d\w\.\-]+)/mi
 
 async function getUserAgents(udid) {

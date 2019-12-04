@@ -1,4 +1,4 @@
-import '@babel/polyfill'
+//import '@babel/polyfill'
 
 async function main() {
   await _main()
@@ -11,3 +11,5 @@ async function _main() {
 }
 
 main()
+  .then(() => console.log('Done.'))
+  .catch((err) => console.log(err))

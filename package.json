@@ -11,7 +11,8 @@
     "api": "babel-node ./src/api.js",
     "download-apk": "babel-node ./src/download-apk.js",
     "install-ios-app": "babel-node ./src/install-ios-app.js",
-    "install-ios-app-wdio": "babel-node ./src/install-ios-app-wdio.js"
+    "install-ios-app-wdio": "babel-node ./src/install-ios-app-wdio.js",
+    "uninstall-ios-apps": "babel-node ./src/uninstall-ios-apps"
   },
   "repository": {
     "type": "git",
