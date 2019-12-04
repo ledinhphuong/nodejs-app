@@ -1,7 +1,11 @@
 //import '@babel/polyfill'
+import API from './api'
 
 async function main() {
   await _main()
+
+  const devices = await API.getOnlineIosDevices()
+  console.log(`Online iOS devices: ${JSON.stringify(devices)}`)
 
   console.log('main: Hello world')
 }

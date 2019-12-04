@@ -4,9 +4,10 @@
 
 import '@babel/polyfill'
 import BPromise from 'bluebird'
+// import API from './api'
 
 const execAsync = BPromise.promisify(require('child_process').exec, { multiArgs: true })
-const UDID = process.env.UDID
+const UNINSTALL = process.env.UNINSTALL
 
 async function uninstallApps(udid) {
   console.log(`Uninstalling apps on ${udid} device...`)
@@ -16,31 +17,52 @@ async function uninstallApps(udid) {
 
   await BPromise.mapSeries(apps, (app) => {
     const appId = app[0]
-    console.log(`Uninstall app ${appId}`)
+    console.log(`Uninstalling app ${appId}`)
     return execAsync(`/usr/local/bin/ideviceinstaller -u ${udid} -U ${appId}`, { timeout: 2 * 60 * 1000 })
   }).catch((err) => console.log(err))
 }
 
-async function uninstallAppsInConnectedDevices() {
-  console.log('Uninstalled apps in all connected iOS devices...')
+async function uninstallAppsInOnlineDevices() {
+  console.log('Uninstalled apps in all connected iOS devices in this mac...')
 
-  const udids = await getUDIDs()
-  if (!udids) return
+  const connectedUDIDs = await getConnectedUDIDs()
+  if (!connectedUDIDs) return
 
-  console.log(`* There are ${udids.length} connected devices: ${JSON.stringify(udids)}`)
+  // const onlineIosDevices = await API.getOnlineIosDevices()
+  // console.log(`\n* ${onlineIosDevices.length} online iOS devices in Kobiton: ${JSON.stringify(onlineIosDevices)}`)
+  //
+  // const onlineUDIDs = connectedUDIDs.filter((udid) => {
+  //   let online = false
+  //
+  //   for (let i = 0; i < onlineIosDevices.length; i++) {
+  //     if (onlineIosDevices[i].udid === udid) {
+  //       online = true
+  //       break
+  //     }
+  //   }
+  //
+  //   console.log(`Is ${udid} online? ${online}`)
+  //
+  //   return online
+  // })
 
-  for (let i = 0; i < udids.length; i++) {
-    const udid = udids[i]
+  console.log(`\n* ${connectedUDIDs.length} connected devices in this mac: ${JSON.stringify(connectedUDIDs)}`)
+  if (connectedUDIDs.length > 0) {
+    console.log('\nUninstalling...')
 
-    console.log(`\n* [${i + 1}] Device ${udid}:`)
-    await uninstallApps(udid)
+    for (let i = 0; i < connectedUDIDs.length; i++) {
+      const udid = connectedUDIDs[i]
+
+      console.log(`\n* [${i + 1}] Device ${udid}:`)
+      await uninstallApps(udid)
+    }
   }
 }
 
 async function listInstalledAppsInConnectedDevices() {
   console.log('Listing out all installed apps in all connected iOS devices...')
 
-  const udids = await getUDIDs()
+  const udids = await getConnectedUDIDs()
   if (!udids) return
 
   console.log(`* There are ${udids.length} connected devices: ${JSON.stringify(udids)}`)
@@ -69,17 +91,18 @@ async function listInstalledAppsInConnectedDevices() {
 }
 
 async function main() {
-  if (UDID) {
-    if (UDID === 'all') {
-      return uninstallAppsInConnectedDevices()
+  if (UNINSTALL) {
+    if (UNINSTALL === 'all') {
+      return uninstallAppsInOnlineDevices()
     }
 
-    return uninstallApps(UDID)
+    return uninstallApps(UNINSTALL)
   }
+
   return listInstalledAppsInConnectedDevices()
 }
 
-async function getUDIDs() {
+async function getConnectedUDIDs() {
   const [stdout, stderr] = await execAsync('/usr/local/bin/idevice_id -l')
   if (stderr) {
     console.log(stderr)
@@ -112,7 +135,8 @@ async function getInstalledApps(udid) {
   const apps = appInfos && appInfos.filter((info) => {
     if (info.length === 3) {
       const name = (info[0] && info[0].trim()).toLowerCase()
-      return (name && !name.includes('kobiton') && name !== 'cfbundleidentifier')
+      return (name && name !== 'cfbundleidentifier' &&
+        !name.includes('kobiton') && !name.includes('webdriveragent'))
     }
 
     return false
