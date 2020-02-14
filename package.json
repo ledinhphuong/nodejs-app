@@ -13,7 +13,8 @@
     "install-ios-app": "./node_modules/.bin/babel-node ./src/install-ios-app.js",
     "install-ios-app-wdio": "./node_modules/.bin/babel-node ./src/install-ios-app-wdio.js",
     "ios-apps": "./node_modules/.bin/babel-node ./src/ios-apps",
-    "trust-devices": "./node_modules/.bin/babel-node ./src/find-trust-devices.js"
+    "trust-devices": "./node_modules/.bin/babel-node ./src/find-trust-devices.js",
+    "ocr": "./node_modules/.bin/babel-node ./src/extract-ocr-text.js"
   },
   "repository": {
     "type": "git",
@@ -55,6 +56,8 @@
     "webdriverio": "^5.16.3"
   },
   "dependencies": {
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "tesseract.js": "^2.0.2",
+    "tesseractocr": "^1.2.1"
   }
 }

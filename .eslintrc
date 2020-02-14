@@ -25,6 +25,8 @@ rules:
   array-bracket-spacing: [2, "never"]
   computed-property-spacing: [2, "never"]
   no-trailing-spaces: [2, {"skipBlankLines": true}]
+  object-curly-spacing: [0, "never"]
+  no-return-assign: ["error", "never"]
 
   # Disables generator-star-spacing check since there's an issue with babel
   # Refs: https://github.com/babel/babel-eslint/issues/316
