@@ -17,10 +17,9 @@ async function execTesseract(imagePath) {
   // await execAsync(`/usr/local/bin/tesseract ${FILE} out -l eng --psm 12 tsv`)
 
   return new BPromise((resolve, reject) => {
-    let readStream, transform, tesseract, stdout, stderr
-
-    stdout = ''
-    stderr = ''
+    let readStream, transform, tesseract
+    let stdout = ''
+    let stderr = ''
 
     const destroy = () => {
       readStream && readStream.destroy()
@@ -34,7 +33,6 @@ async function execTesseract(imagePath) {
 
     try {
       readStream = createReadStream(imagePath)
-
       tesseract = spawn(
         'tesseract',
         // ['stdin', 'stdout', '--psm', 12, 'box', 'makebox'],
@@ -79,7 +77,7 @@ function extractText_tesseractjs() {
 async function extractText_tessseractorc() {
   try {
     // tesseract /Users/phuongdle/MyProjects/public/nodejs-app/src/crop.jpg ./output -l eng --psm 12 'tsv' && cat output.tsv
-    let ocrText = await recognize(FILE, {l: 'eng', psm: 12, configfile: ' \'tsv\' batch.nochop makebox'})
+    let ocrText = await recognize(FILE)
     // ocrText = ocrText.toLowerCase().trim().replace(/\s\s+/g, ' ')
     return ocrText && ocrText.trim()
   }
@@ -94,10 +92,12 @@ async function main() {
     // const text = await extractText()
     const {stdout, stderr} = await execTesseract(FILE)
 
-    const line = /(d+)\s(d+)/
     console.log(`tesseract stdout: ${stdout}`)
+
+    const line = /(d+)\s(d+)/
+
     // console.log(`tesseract stderr: ${stderr}`)
-    // const lines = stdout.split('\n')
+    const lines = stdout.split('\n')
     // console.log(JSON.stringify(lines))
   }
   catch(err) {
