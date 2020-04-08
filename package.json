@@ -14,7 +14,8 @@
     "install-ios-app-wdio": "./node_modules/.bin/babel-node ./src/install-ios-app-wdio.js",
     "ios-apps": "./node_modules/.bin/babel-node ./src/ios-apps",
     "trust-devices": "./node_modules/.bin/babel-node ./src/find-trust-devices.js",
-    "ocr": "./node_modules/.bin/babel-node ./src/extract-ocr-text.js"
+    "ocr": "./node_modules/.bin/babel-node ./src/extract-ocr-text.js",
+    "adb": "./node_modules/.bin/babel-node ./src/interval-adb.js"
   },
   "repository": {
     "type": "git",
