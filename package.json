@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.js --exec babel-node",
     "lint": "eslint src",
-    "build": "rm -rf build && babel src -d build",
+    "build": "rm -rf ./build && babel src -d ./build",
     "serve": "nodemon build/index.js",
     "api": "./node_modules/.bin/babel-node ./src/index.js",
     "download-apk": "./node_modules/.bin/babel-node ./src/download-apk.js",
