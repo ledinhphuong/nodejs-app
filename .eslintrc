@@ -4,8 +4,10 @@ extends:
 plugins:
   - babel
   - import
+  - jest
 env:
   node: true
+  "jest/globals": true
 rules:
   eqeqeq: 0
   no-var: 2
@@ -25,6 +27,7 @@ rules:
   array-bracket-spacing: [2, "never"]
   computed-property-spacing: [2, "never"]
   no-trailing-spaces: [2, {"skipBlankLines": true}]
+  object-curly-spacing: ["error", "never"]
 
   # Disables generator-star-spacing check since there's an issue with babel
   # Refs: https://github.com/babel/babel-eslint/issues/316
@@ -32,7 +35,6 @@ rules:
 
   # Babel
   babel/new-cap: 2
-  babel/object-curly-spacing: [2, "never"]
 
   # Import
   import/no-unresolved: [2, {commonjs: true, amd: true}]

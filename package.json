@@ -1,9 +1,11 @@
 {
   "name": "nodejs-app",
   "version": "1.0.0",
-  "description": "A node.js application boilerplate writing in ES6, Babel and ESLint",
+  "description": "A node.js application boilerplate writing in ES6, Babel, ESLint, Jest and Sinon",
   "main": "build/index.js",
   "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
     "start": "nodemon src/index.js --exec babel-node",
     "lint": "eslint src",
     "build": "rm -rf build && babel src -d build",
@@ -18,7 +20,9 @@
     "es6",
     "babel",
     "eslint",
-    "boilerplate"
+    "boilerplate",
+    "jest",
+    "sinon"
   ],
   "author": "Phuong Le",
   "license": "MIT",
@@ -32,14 +36,18 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
     "babel-eslint": "^8.2.6",
+    "babel-jest": "^26.6.3",
     "eslint": "^5.3.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^24.3.1",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "nodemon": "^1.18.10"
+    "jest": "^26.6.3",
+    "nodemon": "^1.18.10",
+    "sinon": "^9.2.4"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
