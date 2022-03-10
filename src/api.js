@@ -5,18 +5,10 @@ const SESSION_ID = process.env.SESSION_ID || 86028
 const requestAsync = BPromise.promisify(require('request'), { multiArgs: true })
 
 let configs = {
-  // username: 'phuong',
-  // token: '2252cb17-b5ee-429b-a003-51157e16f74a',
-  username: 'khanhdo',
-  token: '09d0c410-ff77-48fc-980a-8edc3d0da970',
-  apiUrl: 'https://api-test.kobiton.com'
+  username: 'kobiton-org-demo',
+  token: 'e0038bd1-2f9a-469e-8dd0-ce9a5784b26b',
+  apiUrl: 'https://api.kobiton.com'
 }
-
-// configs = {
-//   username: 'hoavutrongvn',
-//   token: '7618ece6-9f13-491f-8ae2-5aaa4b48df5e',
-//   apiUrl: 'https://api.kobiton.com'
-// }
 
 const auth = 'Basic ' + Buffer.from(`${configs.username}:${configs.token}`).toString('base64')
 const headers = {
@@ -25,6 +17,58 @@ const headers = {
 }
 
 class Api {
+  // Start/ Rerun a Revisit Plan
+  // https://kobiton.atlassian.net/wiki/spaces/KOBITON/pages/3370385442/Trigger+Scriptless+on+Automation+Appium+Script
+  async startRevisitPlan() {
+    const body = {
+      "exploringSessionIds": [3975459],
+
+      // If we want to use difference app version with exploring session
+      // "appPath": "kobiton-store:v100",
+
+      "deviceBundleId": [497],
+      // "runAllDevicesInBundle": true,
+
+      // Select a small set of devices in the deviceBundleId
+      "deviceSelections": [
+        {
+          "deviceCapabilities": [
+            {
+              "deviceName": "Pixel 3",
+              "platformVersion": "*",
+              "deviceSource": "KOBITON"
+            }
+            // ,
+            // {
+            //   "deviceName": "*S9*",
+            //   "platformVersion": "10.0.0",
+            //   "deviceSource": "KOBITON"
+            // }
+          ]
+        }
+        // ,
+        // {
+        //   "dataSetId": 100,
+        //   "deviceCapabilities": {
+        //     "deviceName": "Nokia*",
+        //     "platformVersion": "11.0.0",
+        //     "deviceSource": "KOBITON"
+        //   }
+        // }
+      ]
+    }
+
+    const [{ statusCode }, data] = await requestAsync({
+      url: 'https://api.kobiton.com/v1/revisitPlans/start',
+      json: true,
+      method: 'POST',
+      headers: headers,
+      body
+    })
+
+    console.log(`statuscode = ${statusCode}, ${JSON.stringify(data)}`)
+  }
+
   async delete() {
     const [{ statusCode }, data] = await requestAsync({
       url: `https://api-test.kobiton.com/v1/sessions/${SESSION_ID}`,
@@ -80,6 +124,7 @@ class Api {
     return onlineDevices
   }
 
+  // Deprecated
   async rerunRevisit() {
     const [{ statusCode }, data] = await requestAsync({
       url: `${configs.apiUrl}/v1/revisitPlans`,

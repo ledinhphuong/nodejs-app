@@ -7,7 +7,8 @@ async function main() {
   // const devices = await API.getOnlineIosDevices()
   // console.log(`Online iOS devices: ${JSON.stringify(devices)}`)
 
-  await API.rerunRevisit()
+  // await API.rerunRevisit()
+  await API.startRevisitPlan()
 
   console.log('main: Hello world')
 }
