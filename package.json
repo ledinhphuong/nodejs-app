@@ -18,7 +18,8 @@
     "ios-apps": "./node_modules/.bin/babel-node ./src/ios-apps",
     "trust-devices": "./node_modules/.bin/babel-node ./src/find-trust-devices.js",
     "ocr": "./node_modules/.bin/babel-node ./src/extract-ocr-text.js",
-    "adb": "./node_modules/.bin/babel-node ./src/interval-adb.js"
+    "adb": "./node_modules/.bin/babel-node ./src/interval-adb.js",
+    "macos-chrome": "./node_modules/.bin/babel-node ./src/macos-chrome.js"
   },
   "repository": {
     "type": "git",
@@ -60,7 +61,9 @@
     "wd": "^1.11.4"
   },
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "request": "^2.88.0",
+    "selenium-webdriver": "^4.1.2",
     "tesseract.js": "^2.0.2",
     "tesseractocr": "^1.2.1"
   }

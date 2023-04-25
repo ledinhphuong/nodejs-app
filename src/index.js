@@ -1,14 +1,23 @@
 //import '@babel/polyfill'
 import API from './api'
+import GenJWTToken from './gen-jwt-token'
 
 async function main() {
   await _main()
 
-  // const devices = await API.getOnlineIosDevices()
-  // console.log(`Online iOS devices: ${JSON.stringify(devices)}`)
+  await API.generateElementSelector(26)
 
-  // await API.rerunRevisit()
-  await API.startRevisitPlan()
+  // OTP:
+  // await API.bookOTPPhoneNumber()
+  // const phoneNo = '+14707989671'
+  // await API.getOTPToken(phoneNo)
+  // await API.unbookOTPPhoneNumber(phoneNo)
+
+  // await API.deviceBundles()
+  // await API.getDevices()
+
+  //const jwt = await GenJWTToken.gen()
+  //console.log(`JWT: ${jwt}`)
 
   console.log('main: Hello world')
 }
