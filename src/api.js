@@ -5,12 +5,18 @@ const SESSION_ID = process.env.SESSION_ID || 86028
 const requestAsync = BPromise.promisify(require('request'), { multiArgs: true })
 
 let configs = {
+  // LOCAL
   username: 'phuong',
   token: '00d4e6fd-2782-405c-a5a0-fc94e88a5014',
   apiUrl: 'http://localhost:3000'
 
+  // test env
   // username: 'kobitonadmin',
   // token: '05bcba8c-fe7e-41c7-add8-c0e3e9eb5a02',
+  // apiUrl: 'https://api-test.kobiton.com'
+
+  // username: 'DoubleB',
+  // token: '0d97e388-7f5a-4804-bb8f-94b7a9449351',
   // apiUrl: 'https://api-test.kobiton.com'
 }
 
@@ -215,6 +221,21 @@ class Api {
     const [{ statusCode }, data] = await requestAsync({
       url,
       method: 'POST',
+      headers: headers
+    })
+
+    console.log(`statusCode = ${statusCode}, ${JSON.stringify(data)}`)
+  }
+
+  async generateElementSelectorV2(testCaseId) {
+    const url = `${configs.apiUrl}/v2/test-scripts`
+    console.log(`Triggering ${url}...`)
+
+    const [{ statusCode }, data] = await requestAsync({
+      url,
+      json: true,
+      method: 'POST',
+      body: {test_case_version_id: testCaseId},
       headers: headers
     })
 
