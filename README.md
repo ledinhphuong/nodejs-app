@@ -2,8 +2,7 @@
 
 ### Requirements
 ```bash
-node v6.10.0
-npm v3.10.10
+node v10.22.0
 pm2 v3.2.2
 ```
 
@@ -11,9 +10,10 @@ pm2 v3.2.2
 ```bash
 npm install
 npm start
+npm test
+npm test --collectCoverage --coverageDirectory ".coverage"
 npm run lint
 npm run build
-npm run start-product
 ```
 
 ### Runs by pm2

@@ -1,10 +1,10 @@
 module.exports = {
+  testEnvironment: 'node',
   testMatch: [
-    '<rootDir>/__tests__/**/*.js'
+    '<rootDir>/__tests__/**/*.test.js'
   ],
-  coverageReporters: [
-    'text',
-    'cobertura'
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.js'
   ],
-  coverageDirectory: '<rootDir>/.coverage'
+  coverageReporters: ['text-summary', 'json-summary', 'lcov']
 }

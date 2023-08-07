@@ -4,7 +4,7 @@
   "description": "A node.js application boilerplate writing in ES6, Babel, ESLint, Jest and Sinon",
   "main": "build/index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "test:watch": "jest --watch",
     "start": "nodemon src/index.js --exec babel-node",
     "lint": "eslint src",
