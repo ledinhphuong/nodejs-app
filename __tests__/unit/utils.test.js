@@ -6,6 +6,6 @@ describe('../../src/utils', () => {
   })
 
   test('methodReturnBoolean', () => {
-    expect(methodReturnBoolean()).not.toBeTruthy()
+    expect(methodReturnBoolean()).toBeTruthy()
   })
 })
