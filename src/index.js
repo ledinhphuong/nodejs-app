@@ -8,11 +8,11 @@ async function main() {
   // local
   // generate script for v1
   // Result will be saved in RevistPlans.testScriptGenerationInfo
-  // await API.generateElementSelector(277)
+  await API.generateElementSelector(350)
   // generate script for v2
   // Remove value in TestCaseVersions.testScriptData
-  // manual 422, appium script 423
-  await API.generateElementSelectorV2('01898c79-df97-21ca-03ac-253beea05a5d')
+  // manual 422
+  // await API.generateElementSelectorV2('01898cb8-41fd-1f22-318c-d08182f3b245')
 
   // test env
   // await API.generateElementSelector(78725)
