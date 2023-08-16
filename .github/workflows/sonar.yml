@@ -1,20 +1,20 @@
 name: Sonarqube
 
 on:
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'info'
-        type: choice
-        options:
-          - info
-          - warning
-          - debug
-      git-ref:
-        description: Git Ref (Optional)
-        required: false
+  # workflow_dispatch:
+  #   inputs:
+  #     logLevel:
+  #       description: 'Log level'
+  #       required: true
+  #       default: 'info'
+  #       type: choice
+  #       options:
+  #         - info
+  #         - warning
+  #         - debug
+  #     git-ref:
+  #       description: Git Ref (Optional)
+  #       required: false
   push:
     branches:
       - sonar
